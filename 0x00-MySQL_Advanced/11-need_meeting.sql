@@ -1,17 +1,7 @@
--- This script creates a function SafeDiv that divides
--- (and returns) the first by the second number
--- or returns 0 if the second number is equal to 0
-DELIMITER |
-DROP FUNCTION IF EXISTS SafeDiv;
-CREATE FUNCTION SafeDiv (a INT, b INT)
-RETURNS FLOAT
-BEGIN
-    DECLARE result FLOAT;
-    IF b = 0 THEN
-        SET result = 0;
-    ELSE
-        SET result = a / b;
-    END IF;
-    RETURN result;
-END;
-|
+-- This script creates a view need_meeting that lists all students
+-- that have a score under 80 (strict) and no last_meeting or more than 1 month
+DROP VIEW IF EXISTS need_meeting;
+CREATE VIEW need_meeting
+AS SELECT name FROM students
+WHERE score < 80 AND last_meeting is NULL
+OR last_meeting < DATE_SUB(NOW(), INTERVAL 1 MONTH);
